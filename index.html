@@ -348,9 +348,9 @@
           <input type="range" id="jobval" min="50" max="2000" step="50" value="400">
         </div>
         <div class="ctrl">
-          <label for="missed">Calls or enquiries you miss in a week: <span class="ctrl-val" id="missed-v">5</span></label>
-          <p class="hint">The ones that come in while you're busy and never come back.</p>
-          <input type="range" id="missed" min="0" max="25" step="1" value="5">
+          <label for="missed">Jobs or sales you lose in a typical week: <span class="ctrl-val" id="missed-v">2</span></label>
+          <p class="hint">Enquiries that came in while you were busy and never came back.</p>
+          <input type="range" id="missed" min="0" max="10" step="1" value="2">
         </div>
         <div class="ctrl">
           <label>Do you follow up quotes if you don't hear back?</label>
@@ -366,7 +366,7 @@
           <p class="hint">Invoicing, chasing, booking, replying. Time you never get back.</p>
           <input type="range" id="admin" min="0" max="25" step="1" value="5">
         </div>
-        <p class="assump">Deliberately conservative. Assumes only ~15% of missed enquiries would have become a job, and values your time at just £15/hour. Your real numbers are probably higher.</p>
+        <p class="assump">Deliberately conservative. Values your time at just £15/hour, and counts nothing for the repeat work and referrals a lost customer would have brought. Your real numbers are probably higher.</p>
       </div>
 
       <div class="calc-result reveal">
@@ -374,7 +374,7 @@
         <div class="cr-big" id="monthly">£0</div>
         <div class="cr-year"><span id="yearly">£0</span> a year · <span id="hrs">0</span> hours a month</div>
         <div class="cr-break">
-          <div class="cr-row"><span>Missed enquiries</span><span id="b-missed">£0</span></div>
+          <div class="cr-row"><span>Lost jobs</span><span id="b-missed">£0</span></div>
           <div class="cr-row"><span>Unchased quotes</span><span id="b-quote">£0</span></div>
           <div class="cr-row"><span>Your time on admin</span><span id="b-admin">£0</span></div>
         </div>
@@ -629,7 +629,7 @@ const CONTACT_EMAIL = "joe@smartlinesystems.co.uk";
 
 /* ============ CALCULATOR ============ */
 (function(){
-  const WEEKS = 4.33, BOOK_RATE = 0.15, ADMIN_RATE = 15;
+  const WEEKS = 4.33, ADMIN_RATE = 15;
   const jobval = document.getElementById('jobval');
   const missed = document.getElementById('missed');
   const admin  = document.getElementById('admin');
@@ -640,7 +640,7 @@ const CONTACT_EMAIL = "joe@smartlinesystems.co.uk";
 
   function calc(){
     const jv = +jobval.value, mc = +missed.value, ad = +admin.value;
-    const missedLoss = mc * WEEKS * BOOK_RATE * jv;
+    const missedLoss = mc * WEEKS * jv;
     const quoteLoss  = missedLoss * followVal;
     const adminLoss  = ad * WEEKS * ADMIN_RATE;
     const monthly = missedLoss + quoteLoss + adminLoss;
